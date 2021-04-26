@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +14,7 @@ import java.util.Map;
 public class ShopPage extends BasePage {
     public Map<String, Integer> buysMap = new HashMap<>();
 
-    @FindBy(xpath = "//*[@class='_1O1OnAPlSR _29bSn5MwO8 E0C6OmNNOg _3nAkRBQgmd cia-vs cia-cs']")
+    @FindBy(xpath = "//*[@class='_2Qo3ODl0by cia-vs']")
     private List<WebElement> allGoods;
     @FindBy(xpath = "//*[@class='_2yK7W3SWQ- _1f2usTwyAs'][1]")
     private WebElement maxPrice;
@@ -38,15 +40,15 @@ public class ShopPage extends BasePage {
     public WebElement getYandexShop(){
         return yandexShop;
     }
+
     public void addProductToBasket(WebElement product) {
-        WebElement buttonAdd = product.findElement(By.xpath("//*[@class='zsSJkfeAPw _16jABpOZ2- gjdzW5ajbI LS3-2-cZ2Z _2Sz75Y384m _1XumhZyXqj _2VlTHnWxF8']"));
+        WebElement buttonAdd = product.findElement(By.xpath("//*[@class='_21ohEVHaiq _1raAR0svo_'][0]"));
         js.executeScript("arguments[0].scrollIntoViewIfNeeded(true);", buttonAdd);
         clickElem(buttonAdd);
         //clickElem(closeWindow);
         this.getWaiter().until(ExpectedConditions.textToBePresentInElement(product.findElement(By.xpath("//*[@class='_1sjUgidnzS _1DpwW9o1wj']")), "1 шт"));
-
-
     }
+
     public int getAllGoods(){
         int xpathCount = driver.findElements(By.xpath("//*[@data-zone-name='snippet-cell']")).size();
       //  List<WebElement> shopList = getAllGoods().findElements(By.xpath("//*[@class='_1O1OnAPlSR _29bSn5MwO8 E0C6OmNNOg _3nAkRBQgmd cia-vs cia-cs']"));

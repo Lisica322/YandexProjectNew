@@ -5,6 +5,7 @@ import cucumber.api.java.ru.Допустим;
 import cucumber.api.java.ru.Когда;
 import cucumber.api.java.ru.Тогда;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.BasketPage;
@@ -35,7 +36,6 @@ public class CucumberSteps {
 
     @Когда("Выполнить поиск по {string}")
     public void search(String seachingItem) {
-
         //while (!seachingItem.equals(mainPage.getSearchLineInput().getAttribute("type")))
         mainPage.fillField(mainPage.getSearchLineInput(), seachingItem);
         mainPage.clickElem(mainPage.getSearchButton());
@@ -44,12 +44,20 @@ public class CucumberSteps {
 
     @Тогда("Ограничить цену сверху до {int}")
     public void setMaxPrice(int price) {
-        WebElement autofill = shopPage.getMaxPrice();
+        WebElement autofill = null;
+        try{
+         autofill = shopPage.getMaxPrice();
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        finally {
+            search("комплекс для кошек");
+        }
+
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < autofill.getAttribute("value").length(); i++) {
             builder.append("\b");
         }
-
         shopPage.getMaxPrice().sendKeys(builder.toString() + price + "\n");
     }
 
@@ -67,7 +75,7 @@ public class CucumberSteps {
 
     @Допустим("Добавить {int} товаров в корзину. Условие - {string}")
     public void addTobasket(int count, String rule) {
-        int i, step;
+       /* int i, step;
         if (rule.equals("нечетные")) {
             i = 0;
             step = 2;
@@ -81,19 +89,19 @@ public class CucumberSteps {
             i = 1;
             step = 1;
         }
-        for (; i < count; i += step) {
+        for (; i < count; i += step) {*/
 
-            WebElement product = shopPage.getElementFromGoodsList(i);
+            WebElement product = shopPage.getElementFromGoodsList(0);
             String nameElement = shopPage.getProductName(product);
             String priceElement = shopPage.getProductPrice(product);
             shopPage.buysMap.put(nameElement, shopPage.getProductPriceFromString(priceElement));
             try {
                 shopPage.addProductToBasket(product);
             } catch (NoSuchElementException e) {
-                Assert.fail("В магазин " + nameElement + "\nНельзя добавить в корзину");
+                Assert.fail("Товар " + nameElement + "\nНельзя добавить в корзину");
             }
         }
-    }
+
 
     @After
     public void zakrit() throws InterruptedException {

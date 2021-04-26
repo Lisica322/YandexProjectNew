@@ -13,7 +13,7 @@ import java.util.List;
 
 public class BasePage {
     protected WebDriver driver = DriverManager.getDriver();
-    protected WebDriverWait wait = new WebDriverWait(driver, 10, 100);
+    protected WebDriverWait wait = new WebDriverWait(driver, 15, 100);
     protected JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
 
     public WebDriverWait getWaiter() {
