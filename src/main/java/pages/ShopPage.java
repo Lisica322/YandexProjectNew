@@ -32,7 +32,6 @@ public class ShopPage extends BasePage {
     @FindBy(xpath = "//div[@class ='_1UPuXOJfD4']/*")
     private List<WebElement> addToBucketList;
 
-
     public WebElement getMaxPrice() {
         return maxPrice;
     }

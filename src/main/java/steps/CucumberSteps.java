@@ -5,9 +5,12 @@ import cucumber.api.java.ru.Допустим;
 import cucumber.api.java.ru.Когда;
 import cucumber.api.java.ru.Тогда;
 import org.junit.Assert;
+import org.junit.rules.Timeout;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import pages.BasePage;
 import pages.BasketPage;
 import pages.MainPage;
@@ -45,7 +48,7 @@ public class CucumberSteps {
 
     @Тогда("Ограничить цену сверху до {int}")
     public void setMaxPrice(int price) throws InterruptedException {
-
+       Thread.sleep(2000);
         WebElement autofill = shopPage.getMaxPrice();
 
         StringBuilder builder = new StringBuilder();
@@ -99,10 +102,14 @@ public class CucumberSteps {
 
 
     @Допустим("Удалить все товары из корзины")
-    public void delAllProductsFromBasker() {
+    public void delAllProductsFromBasker() throws InterruptedException {
+        WebDriver driver = new ChromeDriver();
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("window.scrollBy(0,-250)", "");
         mainPage.goToBasket();
         if (!basketPage.getBucketStatusBar().equals("В корзине нет товаров")){
             basketPage.delete();
+            Thread.sleep(2000);
         }
     }
     @After
@@ -111,4 +118,4 @@ public class CucumberSteps {
 
         DriverManager.closeDriver();
     }
-}
+}//*[@class='_2yK7W3SWQ- _1f2usTwyAs'][1]
