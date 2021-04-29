@@ -12,14 +12,17 @@ import java.util.List;
 
 
 public class BasePage {
-    protected WebDriver driver = DriverManager.getDriver();
-    protected WebDriverWait wait = new WebDriverWait(driver, 15, 100);
-    protected JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+    protected static WebDriver driver = DriverManager.getDriver();
+    protected static WebDriverWait wait = new WebDriverWait(driver, 5, 50);
+    protected static JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
 
     public WebDriverWait getWaiter() {
         return wait;
     }
 
+    public static WebDriver getDriver() {
+        return driver;
+    }
     public BasePage() {
         PageFactory.initElements(driver, this);
     }

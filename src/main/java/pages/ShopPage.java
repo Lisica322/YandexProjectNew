@@ -25,16 +25,13 @@ public class ShopPage extends BasePage {
     private WebElement brandsBar;
     @FindBy(xpath = "//div[@class='input-wrap search-input m-low-height']/input")
     private WebElement inputBrand;
-    @FindBy(xpath = "//*[@class='_2PD3NkrVA6']")
+    @FindBy(xpath = "//*[@data-autotest-id='cpa']")
     private WebElement yandexShop;
     @FindBy(xpath = "//*[@class='_3FCaH0jGWO _1yIm0AlO3K']")
     private WebElement closeWindow;
     @FindBy(xpath = "//div[@class ='_1UPuXOJfD4']/*")
     private List<WebElement> addToBucketList;
 
-    public WebElement getCloseWindow() {
-        return closeWindow;
-    }
 
     public WebElement getMaxPrice() {
         return maxPrice;
@@ -44,13 +41,17 @@ public class ShopPage extends BasePage {
         return yandexShop;
     }
 
-    public void addProductToBasket(WebElement product) {
-
-        //js.executeScript("arguments[0].scrollIntoViewIfNeeded(true);", addToBucketList);
+    public void addProductToBasket(WebElement product)  {
         clickElem(addToBucketList.get(1));
+        closePopUpIfExists(); //закрываем всплывашку
         clickElem(addToBucketList.get(3));
-        //clickElem(closeWindow);
-        this.getWaiter().until(ExpectedConditions.textToBePresentInElement(product.findElement(By.xpath("//*[@class='_1sjUgidnzS _1DpwW9o1wj']")), "1 шт"));
+        closePopUpIfExists();
+    }
+
+    private void closePopUpIfExists() {
+        if (isPopUpWindowExists()){
+            clickElem(driver.findElement(By.xpath("//div[@class ='_3FCaH0jGWO _1yIm0AlO3K']")));
+        }
     }
 
     public int getAllGoods() {
@@ -80,5 +81,15 @@ public class ShopPage extends BasePage {
 
     public WebElement getMinPrice() {
         return minPrice;
+    }
+    public boolean isPopUpWindowExists(){
+        try{
+            Thread.sleep(5*1000);
+            driver.findElement(By.xpath("//*[@class=\"_2yjtqZ8Clc D-q4L_WjW8\"]"));
+            return true;
+        }catch (Exception e){
+            System.out.println("Всплывашка не обнаружена");
+        }
+        return false;
     }
 }
